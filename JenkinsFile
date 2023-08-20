@@ -51,6 +51,7 @@ pipeline {
             sh "docker push ${env.dockerhubuser}/devops-cicd:${BUILD_NUMBER}"
                     }
      }
+}
 
     stage('Update Deployment File') {
         environment {
