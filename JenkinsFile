@@ -41,15 +41,17 @@ pipeline {
     sh 'spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
     }
     }
-    stage('Push Docker Image') {
-    steps{
-                    echo "pushing to dockerhub"
-                    withCredentials([usernamePassword(credentialsId:"dockerhub",passwordVariable:"dockerhubpass",usernameVariable:"dockerhubuser")]){
-                    sh "docker tag mavenapp ${env.dockerhubuser}/devops-cicd:${BUILD_NUMBER}"
-                    sh "docker login -u ${env.dockerhubuser} -p ${env.dockerhubpass}"
-                    sh "docker push ${env.dockerhubuser}/devops-cicd:${BUILD_NUMBER}"
+
+    stage ('Push Docker Image') {
+     steps{
+            echo "pushing to dockerhub"
+            withCredentials([usernamePassword(credentialsId:"dockerhub",passwordVariable:"dockerhubpass",usernameVariable:"dockerhubuser")]){
+            sh "docker tag mavenapp ${env.dockerhubuser}/devops-cicd:${BUILD_NUMBER}"
+            sh "docker login -u ${env.dockerhubuser} -p ${env.dockerhubpass}"
+            sh "docker push ${env.dockerhubuser}/devops-cicd:${BUILD_NUMBER}"
                     }
-    }
+     }
+
     stage('Update Deployment File') {
         environment {
             GIT_REPO_NAME = "mavencicd"
