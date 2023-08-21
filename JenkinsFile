@@ -42,7 +42,11 @@ pipeline {
     }
     }
 
-    stage ('Push Docker Image') {
+    stage ('Push Docker Image'){
+environment {
+            DOCKER_IMAGE = "${env.dockerhubuser}/devops-cicd:${BUILD_NUMBER}"
+
+          }
      steps{
             echo "pushing to dockerhub"
             withCredentials([usernamePassword(credentialsId:"dockerhub",passwordVariable:"dockerhubpass",usernameVariable:"dockerhubuser")]){
