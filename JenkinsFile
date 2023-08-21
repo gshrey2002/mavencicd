@@ -46,7 +46,8 @@ pipeline {
      steps{
             echo "pushing to dockerhub"
             withCredentials([usernamePassword(credentialsId:"dockerhub",passwordVariable:"dockerhubpass",usernameVariable:"dockerhubuser")]){
-            sh "docker tag mavenapp ${env.dockerhubuser}/devops-cicd:${BUILD_NUMBER}"
+           // sh "docker tag mavenapp ${env.dockerhubuser}/devops-cicd:${BUILD_NUMBER}"
+            sh "docker tag ${DOCKER_IMAGE} ${env.dockerhubuser}/devops-cicd:${BUILD_NUMBER}"
             sh "docker login -u ${env.dockerhubuser} -p ${env.dockerhubpass}"
             sh "docker push ${env.dockerhubuser}/devops-cicd:${BUILD_NUMBER}"
                     }
